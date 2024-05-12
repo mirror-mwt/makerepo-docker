@@ -5,7 +5,6 @@ services:
     container_name: makerepo-primary
     build:
       context: .
-      dockerfile: Dockerfile
     environment:
         - GITHUB_URL=https://api.github.com/repos/rclone/rclone/releases
     volumes:
