@@ -1,0 +1,3 @@
+basedir /dist/deb
+dbdir /root/reprepro/db
+logdir /root/reprepro/logs

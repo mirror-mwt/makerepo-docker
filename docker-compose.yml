@@ -1,0 +1,16 @@
+version: "3.3"
+
+services:
+  makerepo-primary:
+    container_name: makerepo-primary
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+        - GITHUB_URL=https://api.github.com/repos/rclone/rclone/releases
+    network_mode: host
+    volumes:
+      - /mnt/storage/mirror/rclone:/dist
+      - ./reprepro:/root/reprepro
+      - ./staging:/root/staging
+    restart: "unless-stopped"

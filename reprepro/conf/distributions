@@ -1,0 +1,6 @@
+Origin: mirror.mwt.me
+Label: Rclone
+Codename: any
+Architectures: amd64 i386 arm64 armhf armel mips mipsel
+Components: main
+Description: Apt repository for Rclone
