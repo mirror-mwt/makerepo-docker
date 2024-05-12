@@ -8,7 +8,6 @@ services:
       dockerfile: Dockerfile
     environment:
         - GITHUB_URL=https://api.github.com/repos/rclone/rclone/releases
-    network_mode: host
     volumes:
       - /mnt/storage/mirror/rclone:/dist
       - ./reprepro:/root/reprepro
