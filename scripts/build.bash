@@ -27,7 +27,7 @@ set -e
 
 # Retreive json file describing latest release
 wget -qO "${STAGING_DIR}/latest.json" "${REPO_LATEST_API}" || {
-    date_time_echo "json download failed"
+    date_time_echo "json download failed (code $?)."
     exit 1
 }
 

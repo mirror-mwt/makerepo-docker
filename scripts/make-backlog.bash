@@ -21,7 +21,7 @@ BACKLOG_SIZE=5
 
 # Retreive json file describing latest release
 wget -qO "${STAGING_DIR}/backlog.json" "${GITHUB_URL}?per_page=${BACKLOG_SIZE}" || {
-    date_time_echo "json download failed"
+    date_time_echo "json download failed (code $?)."
     exit 1
 }
 

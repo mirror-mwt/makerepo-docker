@@ -76,13 +76,13 @@ make_repos() {
             :
         elif [[ ${DL_FILE} == *.deb ]]; then
             wget -Nnv "${DL_LINK}" -o "${DL_FILE}.log" || {
-                date_time_echo "deb download failed"
+                date_time_echo "deb download failed (code $?)."
                 exit 1
             }
             reprepro --confdir "$2" includedeb any "${DL_FILE}" >>"${DL_FILE}.log" &&
-                date_time_echo "Added ${DL_FILE} to APT repo." ||
+                date_time_echo "Added ${DL_FILE} to APT repo" ||
                 {
-                    date_time_echo "Failed to add ${DL_FILE} to APT repo."
+                    date_time_echo "Failed to add ${DL_FILE} to APT repo (code $?)."
                     exit 1
                 }
         elif [[ ${DL_FILE} == *.rpm ]]; then
@@ -91,9 +91,9 @@ make_repos() {
                 exit 1
             }
             update_rpm_repo "${DL_FILE}" "$3" >>"${DL_FILE}.log" &&
-                date_time_echo "Added ${DL_FILE} to YUM repo." ||
+                date_time_echo "Added ${DL_FILE} to YUM repo" ||
                 {
-                    date_time_echo "Failed to add ${DL_FILE} to YUM repo."
+                    date_time_echo "Failed to add ${DL_FILE} to YUM repo (code $?)."
                     exit 1
                 }
         fi

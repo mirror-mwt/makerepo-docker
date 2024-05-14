@@ -19,4 +19,4 @@ RUN gpg --import /root/secret.key && rm /root/secret.key
 RUN touch /var/log/cron.log
 
 # Run the command on container startup
-CMD cron && tail -f /var/log/cron.log
+CMD printenv | grep "_URL" >> /etc/environment && cron && tail -f /var/log/cron.log
