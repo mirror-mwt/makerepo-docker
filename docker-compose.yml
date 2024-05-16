@@ -1,5 +1,3 @@
-version: "3.3"
-
 services:
   makerepo-rclone:
     container_name: makerepo-rclone
