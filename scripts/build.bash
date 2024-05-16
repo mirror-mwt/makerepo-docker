@@ -13,7 +13,7 @@ STAGING_DIR=/root/staging
 . "${SCRIPT_DIR}/functions.bash"
 
 # Make sure directories exist
-mkdir -p /dist/deb/ /dist/rpm/ /root/reprepro/db/ /root/reprepro/logs/
+mkdir -p "${STAGING_DIR}" /dist/deb/ /dist/rpm/ /root/reprepro/db/ /root/reprepro/logs/
 
 # exit on first error
 set -e

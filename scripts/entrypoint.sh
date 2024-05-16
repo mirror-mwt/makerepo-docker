@@ -3,27 +3,32 @@
 set -e
 
 # Import the GPG key
-echo "$MWT_PGP_PRIVATE_KEY" | gpg --allow-secret-key-import --import
+echo "$PGP_PRIVATE_KEY" | gpg --allow-secret-key-import --import
 
 # Define the reprepro distributions file
 reprepo_distributions() {
-    if [ -n "$MWT_REPREPRO_ORIGIN" ]; then
-        echo "Origin: $MWT_REPREPRO_ORIGIN"
+    if [ -n "$REPREPRO_ORIGIN" ]; then
+        echo "Origin: $REPREPRO_ORIGIN"
     fi
-    if [ -n "$MWT_REPREPRO_LABEL" ]; then
-        echo "Label: $MWT_REPREPRO_LABEL"
+    if [ -n "$REPREPRO_LABEL" ]; then
+        echo "Label: $REPREPRO_LABEL"
     fi
-    if [ -n "$MWT_REPREPRO_CODENAME" ]; then
-        echo "Codename: $MWT_REPREPRO_CODENAME"
-    fi
-    if [ -n "$MWT_REPREPRO_ARCHITECTURES" ]; then
-        echo "Architectures: $MWT_REPREPRO_ARCHITECTURES"
-    fi
-    if [ -n "$MWT_REPREPRO_COMPONENTS" ]; then
-        echo "Components: $MWT_REPREPRO_COMPONENTS"
-    fi
-    if [ -n "$MWT_REPREPRO_DESCRIPTION" ]; then
-        echo "Description: $MWT_REPREPRO_DESCRIPTION"
+
+    # If the codename is not set, default to "any"
+    echo "Codename: ${REPREPRO_CODENAME:-any}"
+
+    # If architectures are not set, default to "amd64" only
+    echo "Architectures: ${REPREPRO_ARCHITECTURES:-amd64}"
+
+    # If components are not set, default to "main" only
+    echo "Components: ${REPREPRO_COMPONENTS:-main}"
+
+    # If description is not set, but label is,
+    # default to "Apt repository for $REPREPRO_LABEL"
+    if [ -n "$REPREPRO_DESCRIPTION" ]; then
+        echo "Description: $REPREPRO_DESCRIPTION"
+    elif [ -n "$REPREPRO_LABEL" ]; then
+        echo "Description: Apt repository for $REPREPRO_LABEL"
     fi
 }
 

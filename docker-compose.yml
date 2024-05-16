@@ -7,18 +7,14 @@ services:
       context: .
     environment:
       - MWT_GITHUB_URL=https://api.github.com/repos/rclone/rclone/releases
-      - MWT_REPREPRO_ORIGIN=mirror.mwt.me
-      - MWT_REPREPRO_LABEL=Rclone
-      - MWT_REPREPRO_CODENAME=any
-      - MWT_REPREPRO_ARCHITECTURES=amd64 i386 arm64 armhf armel mips mipsel
-      - MWT_REPREPRO_COMPONENTS=main
-      - MWT_REPREPRO_DESCRIPTION=Apt repository for Rclone
+      - REPREPRO_ORIGIN=mirror.mwt.me
+      - REPREPRO_LABEL=Rclone
+      - REPREPRO_ARCHITECTURES=amd64 i386 arm64 armhf armel mips mipsel
     env_file:
       - secret.env
     volumes:
       - /mnt/storage/mirror/rclone:/dist
       - reprepro-db-rclone:/root/reprepro/db
-      - package-staging:/root/staging
     restart: "unless-stopped"
   makerepo-zoom:
     container_name: makerepo-zoom
@@ -26,20 +22,15 @@ services:
       context: .
     environment:
       - MWT_DIRECT_DOWNLOADS=https://zoom.us/client/latest/zoom_amd64.deb https://zoom.us/client/latest/zoom_x86_64.rpm
-      - MWT_REPREPRO_ORIGIN=mirror.mwt.me
-      - MWT_REPREPRO_LABEL=Zoom
-      - MWT_REPREPRO_CODENAME=any
-      - MWT_REPREPRO_ARCHITECTURES=amd64
-      - MWT_REPREPRO_COMPONENTS=main
-      - MWT_REPREPRO_DESCRIPTION=Apt repository for Zoom
+      - REPREPRO_ORIGIN=mirror.mwt.me
+      - REPREPRO_LABEL=Zoom
+      - REPREPRO_ARCHITECTURES=amd64
     env_file:
       - secret.env
     volumes:
       - /mnt/storage/mirror/zoom:/dist
       - reprepro-db-zoom:/root/reprepro/db
-      - package-staging:/root/staging
     restart: "unless-stopped"
 volumes:
   reprepro-db-rclone:
   reprepro-db-zoom:
-  package-staging:
