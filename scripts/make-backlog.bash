@@ -15,6 +15,9 @@ BACKLOG_SIZE=5
 # Get function for creating deb/rpm repos
 . "${SCRIPT_DIR}/functions.bash"
 
+# Exit on first error
+set -e
+
 #===================================================
 # Get Info About Latest Release
 #===================================================

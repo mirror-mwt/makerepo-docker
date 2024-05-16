@@ -15,12 +15,8 @@ COPY --chmod=0755 reprepro/conf/ /root/reprepro/conf/
 # Add crontab file in the cron directory and set execution rights
 COPY --chmod=0644 crontab /etc/cron.d/mirror-cron
 
-# Copy and import GPG key
-COPY --chmod=0600 secret.key /root/secret.key
-RUN gpg --import /root/secret.key && rm /root/secret.key
-
 # Create the log file to be able to run tail
 RUN touch /var/log/cron.log
 
 # Run the command on container startup
-CMD printenv | grep "_URL" >> /etc/environment && cron && tail -f /var/log/cron.log
+ENTRYPOINT [ "/root/scripts/entrypoint.sh" ]

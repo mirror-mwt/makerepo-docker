@@ -1,4 +1,4 @@
 /reprepro/db
 /reprepro/log
 /staging
-secret.key
+secret.env
