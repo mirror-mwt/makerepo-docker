@@ -8,6 +8,10 @@ RUN apt-get update \
 # Add script files
 COPY --chmod=0755 scripts/ /root/scripts/
 
+# Add reprepro configuration files
+RUN mkdir -p /root/reprepro/conf/ /root/reprepro/log/
+COPY --chmod=0755 reprepro/conf/ /root/reprepro/conf/
+
 # Add crontab file in the cron directory and set execution rights
 COPY --chmod=0644 crontab /etc/cron.d/mirror-cron
 

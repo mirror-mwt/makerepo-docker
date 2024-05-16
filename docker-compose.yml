@@ -6,9 +6,15 @@ services:
     build:
       context: .
     environment:
-        - GITHUB_URL=https://api.github.com/repos/rclone/rclone/releases
+      - MWT_GITHUB_URL=https://api.github.com/repos/rclone/rclone/releases
+      - MWT_REPREPRO_ORIGIN=mirror.mwt.me
+      - MWT_REPREPRO_LABEL=Rclone
+      - MWT_REPREPRO_CODENAME=any
+      - MWT_REPREPRO_ARCHITECTURES=amd64 i386 arm64 armhf armel mips mipsel
+      - MWT_REPREPRO_COMPONENTS=main
+      - MWT_REPREPRO_DESCRIPTION=Apt repository for Rclone
     volumes:
       - /mnt/storage/mirror/rclone:/dist
-      - ./reprepro:/root/reprepro
+      - ./reprepro/db:/root/reprepro/db
       - ./staging:/root/staging
     restart: "unless-stopped"
