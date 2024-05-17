@@ -34,6 +34,9 @@ if [ ! -f "/root/reprepro/conf/distributions" ]; then
                 echo "Description: Apt repository for $REPREPRO_LABEL"
             fi
 
+            # If signwith is not set, default to "default"
+            echo "SignWith: ${REPREPRO_SIGNWITH:-default}"
+
             # Add a final newline to separate the entries (then remove the last one later)
             echo ""
         done
