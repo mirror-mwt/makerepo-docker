@@ -67,13 +67,13 @@ make_repos_single() {
 	DL_CODENAME="${DL_ANCHOR:1}"
 
 	# Get the file name
-	DL_FILE="${DL_URL##*/}"
+	DL_FILE="${DL_CODENAME:-any}-${DL_URL##*/}"
 
 	if [[ ${DL_FILE} == *-arm.deb || ${DL_FILE} == *-arm-v6.deb ]]; then
 		# Do nothing because both arm and arm-v7 are armhf? RCLONE HACK
 		:
 	elif [[ ${DL_FILE} == *.deb ]]; then
-		wget -Nnv "${DL_URL}" -o "${DL_FILE}.log" || {
+		wget -Nnv "${DL_URL}" -O "${DL_FILE}" -o "${DL_FILE}.log" || {
 			date_time_echo "deb download failed (code $?)."
 			exit 1
 		}
@@ -90,7 +90,7 @@ make_repos_single() {
 			exit 1
 		}
 
-		wget -Nnv "${DL_URL}" -o "${DL_FILE}.log" || {
+		wget -Nnv "${DL_URL}" -O "${DL_FILE}" -o "${DL_FILE}.log" || {
 			date_time_echo "rpm download failed (code $?)."
 			exit 1
 		}
