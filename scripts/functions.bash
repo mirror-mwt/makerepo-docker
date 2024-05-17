@@ -59,27 +59,42 @@ make_repos_single() {
 	local REPREPRO_CONF="$2"
 	local RPM_REPO="$3"
 
-	DL_FILE="${DL_LINK##*/}"
+	# Separate the URL from the optional anchor which contains the codename
+	DL_URL="${DL_LINK%%#*}"
+	DL_ANCHOR="${DL_LINK#"$DL_URL"}"
+
+	# Get the codename from the anchor (remove # and default to any)
+	DL_CODENAME="${DL_ANCHOR:1}"
+
+	# Get the file name
+	DL_FILE="${DL_URL##*/}"
+
 	if [[ ${DL_FILE} == *-arm.deb || ${DL_FILE} == *-arm-v6.deb ]]; then
-		# do nothing because both arm and arm-v7 are armhf? RCLONE HACK
+		# Do nothing because both arm and arm-v7 are armhf? RCLONE HACK
 		:
 	elif [[ ${DL_FILE} == *.deb ]]; then
-		wget -Nnv "${DL_LINK}" -o "${DL_FILE}.log" || {
+		wget -Nnv "${DL_URL}" -o "${DL_FILE}.log" || {
 			date_time_echo "deb download failed (code $?)."
 			exit 1
 		}
-		reprepro --confdir "$REPREPRO_CONF" includedeb any "${DL_FILE}" >>"${DL_FILE}.log" &&
+		reprepro --confdir "$REPREPRO_CONF" includedeb "${DL_CODENAME:-any}" "${DL_FILE}" >>"${DL_FILE}.log" &&
 			date_time_echo "Added ${DL_FILE} to APT repo" ||
 			{
 				date_time_echo "Failed to add ${DL_FILE} to APT repo (code $?)."
 				exit 1
 			}
 	elif [[ ${DL_FILE} == *.rpm ]]; then
-		wget -Nnv "${DL_LINK}" -o "${DL_FILE}.log" || {
+		# Ensure that the RPM repo directory exists
+		mkdir -p "$RPM_REPO/${DL_CODENAME}" || {
+			date_time_echo "Failed to create RPM repo directory."
+			exit 1
+		}
+
+		wget -Nnv "${DL_URL}" -o "${DL_FILE}.log" || {
 			date_time_echo "rpm download failed (code $?)."
 			exit 1
 		}
-		update_rpm_repo "${DL_FILE}" "$RPM_REPO" >>"${DL_FILE}.log" &&
+		update_rpm_repo "${DL_FILE}" "$RPM_REPO/${DL_CODENAME}" >>"${DL_FILE}.log" &&
 			date_time_echo "Added ${DL_FILE} to YUM repo" ||
 			{
 				date_time_echo "Failed to add ${DL_FILE} to YUM repo (code $?)."
