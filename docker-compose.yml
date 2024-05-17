@@ -29,6 +29,23 @@ services:
       - /mnt/storage/mirror/zoom:/dist
       - reprepro-db-zoom:/root/reprepro/db
     restart: "unless-stopped"
+  makerepo-rstudio:
+    container_name: makerepo-rstudio
+    build:
+      context: .
+    environment:
+      - MWT_DIRECT_DOWNLOADS=https://rstudio.org/download/latest/stable/desktop/focal/rstudio-latest-amd64.deb#focal https://rstudio.org/download/latest/stable/desktop/jammy/rstudio-latest-amd64.deb#jammy https://rstudio.org/download/latest/stable/desktop/rhel9/rstudio-latest-x86_64.rpm#el9
+      - REPREPRO_ORIGIN=mirror.mwt.me
+      - REPREPRO_LABEL=RStudio
+      - REPREPRO_CODENAMES=focal jammy
+      - REPREPRO_ARCHITECTURES=amd64
+    env_file:
+      - secret.env
+    volumes:
+      - /mnt/storage/mirror/rstudio:/dist
+      - reprepro-db-rstudio:/root/reprepro/db
+    restart: "unless-stopped"
 volumes:
   reprepro-db-rclone:
   reprepro-db-zoom:
+  reprepro-db-rstudio:
