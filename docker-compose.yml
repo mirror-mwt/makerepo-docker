@@ -29,23 +29,40 @@ services:
       - /mnt/storage/mirror/zoom:/dist
       - reprepro-db-zoom:/root/reprepro/db
     restart: "unless-stopped"
-  makerepo-rstudio:
-    container_name: makerepo-rstudio
+  makerepo-rstudio-main:
+    container_name: makerepo-rstudio-main
     build:
       context: .
     environment:
-      - MWT_DIRECT_DOWNLOADS=https://rstudio.org/download/latest/stable/desktop/focal/rstudio-latest-amd64.deb#focal https://rstudio.org/download/latest/stable/desktop/jammy/rstudio-latest-amd64.deb#jammy https://rstudio.org/download/latest/stable/desktop/rhel9/rstudio-latest-x86_64.rpm#el9
+      - MWT_DIRECT_DOWNLOADS=https://rstudio.org/download/latest/stable/desktop/jammy/rstudio-latest-amd64.deb#jammy https://rstudio.org/download/latest/stable/desktop/rhel9/rstudio-latest-x86_64.rpm#el9 	https://rstudio.org/download/latest/stable/desktop/rhel8/rstudio-latest-x86_64.rpm#el8
       - REPREPRO_ORIGIN=mirror.mwt.me
       - REPREPRO_LABEL=RStudio
-      - REPREPRO_CODENAMES=focal jammy
+      - REPREPRO_CODENAMES=jammy
       - REPREPRO_ARCHITECTURES=amd64
     env_file:
       - secret.env
     volumes:
-      - /mnt/storage/mirror/rstudio:/dist
-      - reprepro-db-rstudio:/root/reprepro/db
+      - /mnt/storage/mirror/rstudio/deb/jammy:/dist/deb
+      - /mnt/storage/mirror/rstudio/rpm:/dist/rpm
+      - reprepro-db-rstudio-jammy:/root/reprepro/db
+    restart: "unless-stopped"
+  makerepo-rstudio-focal:
+    container_name: makerepo-rstudio-focal
+    build:
+      context: .
+    environment:
+      - MWT_DIRECT_DOWNLOADS=https://rstudio.org/download/latest/stable/desktop/focal/rstudio-latest-amd64.deb#focal
+      - REPREPRO_LABEL=RStudio
+      - REPREPRO_CODENAMES=focal
+      - REPREPRO_ARCHITECTURES=amd64
+    env_file:
+      - secret.env
+    volumes:
+      - /mnt/storage/mirror/rstudio/deb/focal:/dist/deb
+      - reprepro-db-rstudio-focal:/root/reprepro/db
     restart: "unless-stopped"
 volumes:
   reprepro-db-rclone:
   reprepro-db-zoom:
-  reprepro-db-rstudio:
+  reprepro-db-rstudio-jammy:
+  reprepro-db-rstudio-focal:
