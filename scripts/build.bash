@@ -7,7 +7,7 @@
 SCRIPT_DIR=/root/scripts
 
 # Folder where we store downloads json and version file
-STAGING_DIR=/root/staging
+STAGING_DIR=/tmp/staging
 
 # Get function for creating deb/rpm repos
 . "${SCRIPT_DIR}/functions.bash"

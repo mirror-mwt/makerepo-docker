@@ -35,7 +35,7 @@ if [ ! -f "/root/reprepro/conf/distributions" ]; then
 fi
 
 # Store the environment variables so that cron can access them
-printenv | grep ^MWT_ >>/etc/environment
+printenv | grep ^MWT_ >/etc/environment
 
 # Create a log file for cron
 touch /var/log/cron.log

@@ -7,7 +7,7 @@
 SCRIPT_DIR=/root/scripts
 
 # Folder where we store downloads json and version file
-STAGING_DIR="/root/staging"
+STAGING_DIR="/tmp/staging"
 
 # Make a backlog of the same size as the limit
 BACKLOG_SIZE=5
