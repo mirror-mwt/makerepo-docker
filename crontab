@@ -1,4 +1,0 @@
-MIRROR_SCRIPTS="/root/scripts"
-MIRROR_LOG="/var/log/cron.log"
-#m h            user command
-09 0-23/6 * * * root "$MIRROR_SCRIPTS/build.bash" >>"$MIRROR_LOG"

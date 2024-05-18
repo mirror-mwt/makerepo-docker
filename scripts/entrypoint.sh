@@ -49,6 +49,12 @@ printenv | grep ^MWT_ >/etc/environment
 # Create a log file for cron
 touch /var/log/cron.log
 
+# Add crontab file in the cron directory
+cat <<EOF >/etc/cron.d/makerepo
+#m h            user command
+${CRON_TIME:-"09 0-23/6 * * *"} root "/root/scripts/build.bash" >>"/var/log/cron.log"
+EOF
+
 # Start the cron service in the background
 cron
 
