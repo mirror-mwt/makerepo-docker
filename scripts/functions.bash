@@ -67,17 +67,17 @@ make_repos_single() {
 	DL_CODENAME="${DL_ANCHOR:1}"
 
 	# Get the file name
-	DL_FILE="${DL_CODENAME:-any}-${DL_URL##*/}"
+	DL_FILE="${DL_URL##*/}"
 
 	if [[ ${DL_FILE} == *-arm.deb || ${DL_FILE} == *-arm-v6.deb ]]; then
 		# Do nothing because both arm and arm-v7 are armhf? RCLONE HACK
 		:
 	elif [[ ${DL_FILE} == *.deb ]]; then
-		wget -Nnv "${DL_URL}" -O "${DL_FILE}" -o "${DL_FILE}.log" || {
+		wget -Nnv "${DL_URL}" -o "${DL_FILE}.log" || {
 			date_time_echo "deb download failed (code $?)."
 			exit 1
 		}
-		reprepro --confdir "$REPREPRO_CONF" includedeb "${DL_CODENAME:-any}" "${DL_FILE}" >>"${DL_FILE}.log" &&
+		reprepro --confdir "$REPREPRO_CONF" includedeb "${DL_CODENAME:-any}" "${DL_FILE}" >>"${DL_FILE}.log" 2>&1 &&
 			date_time_echo "Added ${DL_FILE} to APT repo" ||
 			{
 				date_time_echo "Failed to add ${DL_FILE} to APT repo (code $?)."
@@ -90,11 +90,11 @@ make_repos_single() {
 			exit 1
 		}
 
-		wget -Nnv "${DL_URL}" -O "${DL_FILE}" -o "${DL_FILE}.log" || {
+		wget -Nnv "${DL_URL}" -o "${DL_FILE}.log" || {
 			date_time_echo "rpm download failed (code $?)."
 			exit 1
 		}
-		update_rpm_repo "${DL_FILE}" "$RPM_REPO/${DL_CODENAME}" >>"${DL_FILE}.log" &&
+		update_rpm_repo "${DL_FILE}" "$RPM_REPO/${DL_CODENAME}" >>"${DL_FILE}.log" 2>&1 &&
 			date_time_echo "Added ${DL_FILE} to YUM repo" ||
 			{
 				date_time_echo "Failed to add ${DL_FILE} to YUM repo (code $?)."
