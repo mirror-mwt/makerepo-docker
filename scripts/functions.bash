@@ -60,7 +60,7 @@ make_repos_single() {
 	local RPM_REPO="$3"
 
 	# Separate the URL from the optional anchor which contains the codename
-	local DL_URL="${DL_LINK%%#*}"
+	local DL_URL="${DL_LINK%%~*}"
 	local DL_ANCHOR="${DL_LINK#"$DL_URL"}"
 
 	# Get the codename from the anchor (remove # and default to any)
