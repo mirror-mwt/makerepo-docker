@@ -20,8 +20,9 @@ set -e
 
 # If direct downloads are provided, use them
 if [[ -n $MWT_DIRECT_DOWNLOADS ]]; then
+	cd "${STAGING_DIR}"
 	for direct_download_url in $MWT_DIRECT_DOWNLOADS; do
-		cd "${STAGING_DIR}"
+		date_time_echo "Adding file from ${direct_download_url}."
 		make_repos_single "$direct_download_url" "/root/reprepro/conf" "/dist/rpm"
 	done
 # If a github url is provided, use it

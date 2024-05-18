@@ -60,14 +60,14 @@ make_repos_single() {
 	local RPM_REPO="$3"
 
 	# Separate the URL from the optional anchor which contains the codename
-	DL_URL="${DL_LINK%%#*}"
-	DL_ANCHOR="${DL_LINK#"$DL_URL"}"
+	local DL_URL="${DL_LINK%%#*}"
+	local DL_ANCHOR="${DL_LINK#"$DL_URL"}"
 
 	# Get the codename from the anchor (remove # and default to any)
-	DL_CODENAME="${DL_ANCHOR:1}"
+	local DL_CODENAME="${DL_ANCHOR:1}"
 
 	# Get the file name
-	DL_FILE="${DL_URL##*/}"
+	local DL_FILE="${DL_URL##*/}"
 
 	if [[ ${DL_FILE} == *-arm.deb || ${DL_FILE} == *-arm-v6.deb ]]; then
 		# Do nothing because both arm and arm-v7 are armhf? RCLONE HACK
@@ -80,7 +80,7 @@ make_repos_single() {
 		reprepro --confdir "$REPREPRO_CONF" includedeb "${DL_CODENAME:-any}" "${DL_FILE}" >>"${DL_FILE}.log" 2>&1 &&
 			date_time_echo "Added ${DL_FILE} to APT repo" ||
 			{
-				date_time_echo "Failed to add ${DL_FILE} to APT repo (code $?)."
+				date_time_echo "Failed to add ${DL_FILE} to APT repo (code $?). DL_URL=${DL_URL} DL_CODENAME=${DL_CODENAME}."
 				exit 1
 			}
 	elif [[ ${DL_FILE} == *.rpm ]]; then
@@ -97,7 +97,7 @@ make_repos_single() {
 		update_rpm_repo "${DL_FILE}" "$RPM_REPO/${DL_CODENAME}" >>"${DL_FILE}.log" 2>&1 &&
 			date_time_echo "Added ${DL_FILE} to YUM repo" ||
 			{
-				date_time_echo "Failed to add ${DL_FILE} to YUM repo (code $?)."
+				date_time_echo "Failed to add ${DL_FILE} to YUM repo (code $?). DL_URL=${DL_URL} DL_CODENAME=${DL_CODENAME}."
 				exit 1
 			}
 	fi
