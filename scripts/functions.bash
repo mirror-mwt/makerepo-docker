@@ -42,8 +42,9 @@ make_repos() {
 		readarray -t DL_LINK_ARRAY < <(jq -r '.assets[] | .browser_download_url | select(test("\\.(deb|rpm)$"))' "$JSON_FILE")
 	fi
 
+	# Loop through download links and generate repos, replacing any ~ with %7E because we use ~ to separate the URL from the codename
 	for DL_LINK in "${DL_LINK_ARRAY[@]}"; do
-		make_repos_single "$DL_LINK" "$REPREPRO_CONF" "$RPM_REPO"
+		make_repos_single "${DL_LINK//'~'/%7E}" "$REPREPRO_CONF" "$RPM_REPO"
 	done
 }
 
@@ -60,7 +61,7 @@ make_repos_single() {
 	local RPM_REPO="$3"
 
 	# Separate the URL from the optional anchor which contains the codename
-	local DL_URL="${DL_LINK%%~*}"
+	local DL_URL="${DL_LINK%%'~'*}"
 	local DL_ANCHOR="${DL_LINK#"$DL_URL"}"
 
 	# Get the codename from the anchor (remove # and default to any)
