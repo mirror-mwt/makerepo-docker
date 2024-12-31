@@ -2,11 +2,14 @@
 
 set -e
 
+# Folder where reprepro configuration is stored
+REPREPRO_CONF=/root/reprepro/conf
+
 # Import the GPG key
 echo "$PGP_PRIVATE_KEY" | gpg --allow-secret-key-import --import
 
 # Generate reprepo distributions file on first run
-if [ ! -f "/root/reprepro/conf/distributions" ]; then
+if [ ! -f "$REPREPRO_CONF/distributions" ]; then
     {
         for REPREPRO_CODENAME in ${REPREPRO_CODENAMES:-any}; do
 
@@ -40,7 +43,15 @@ if [ ! -f "/root/reprepro/conf/distributions" ]; then
             # Add a final newline to separate the entries (then remove the last one later)
             echo ""
         done
-    } | head -c -1 >"/root/reprepro/conf/distributions"
+    } | head -c -1 >"$REPREPRO_CONF/distributions"
+fi
+
+# Create reprepro symlinks on first run
+if [ -n "$REPREPRO_SYMLINKS" ]; then
+    for REPREPRO_SYMLINK in $REPREPRO_SYMLINKS; do
+        # Create symlinks with reprerepo command assuming the format is "from:to"
+        reprepro --confdir "$REPREPRO_CONF" createsymlinks "${REPREPRO_SYMLINK%%:*}" "${REPREPRO_SYMLINK##*:}"
+    done
 fi
 
 # Store the environment variables so that cron can access them

@@ -41,9 +41,10 @@ services:
       - MWT_DIRECT_DOWNLOADS=https://rstudio.org/download/latest/stable/desktop/jammy/rstudio-latest-amd64.deb~jammy https://rstudio.org/download/latest/stable/desktop/rhel9/rstudio-latest-x86_64.rpm~el9 https://rstudio.org/download/latest/stable/desktop/rhel8/rstudio-latest-x86_64.rpm~el8
       - REPREPRO_ORIGIN=mirror.mwt.me
       - REPREPRO_LABEL=RStudio
-      - REPREPRO_CODENAMES=jammy
+      - REPREPRO_CODENAMES=jammy noble
       - REPREPRO_ARCHITECTURES=amd64
       - REPREPRO_SIGNWITH=B7BE5AC2
+      - REPREPRO_SYMLINKS=jammy:noble
       - CRON_TIME=03 5-23/6 * * *
     env_file:
       - secret.env

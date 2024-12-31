@@ -9,6 +9,9 @@ SCRIPT_DIR=/root/scripts
 # Folder where we store downloads json and version file
 STAGING_DIR=/tmp/staging
 
+# Folder where reprepro configuration is stored
+REPREPRO_CONF=/root/reprepro/conf
+
 # Get function for creating deb/rpm repos
 . "${SCRIPT_DIR}/functions.bash"
 
@@ -23,7 +26,7 @@ if [[ -n $MWT_DIRECT_DOWNLOADS ]]; then
 	cd "${STAGING_DIR}"
 	for direct_download_url in $MWT_DIRECT_DOWNLOADS; do
 		date_time_echo "Adding file from ${direct_download_url}."
-		make_repos_single "$direct_download_url" "/root/reprepro/conf" "/dist/rpm"
+		make_repos_single "$direct_download_url" "$REPREPRO_CONF" "/dist/rpm"
 	done
 # If a github url is provided, use it
 elif [[ -n $MWT_GITHUB_URL ]]; then
@@ -62,7 +65,7 @@ elif [[ -n $MWT_GITHUB_URL ]]; then
 	#===================================================
 
 	cd "${STAGING_DIR}"
-	make_repos "${STAGING_DIR}/latest.json" "/root/reprepro/conf" "/dist/rpm"
+	make_repos "${STAGING_DIR}/latest.json" "$REPREPRO_CONF" "/dist/rpm"
 
 	#===================================================
 	# POST Update
